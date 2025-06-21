@@ -1,6 +1,7 @@
 package com.studyhub.studyhub_backend_studies.domain.dto;
 
 import com.studyhub.studyhub_backend_studies.domain.StudyGroup;
+import com.studyhub.studyhub_backend_studies.domain.StudyStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

@@ -76,13 +76,14 @@ public class StudyGroupService {
         );
     }
 
-    public StudyDetailResponse getStudyGroup(Long id){
-
+    @Transactional
+    public StudyDetailResponse getStudyGroup(Long id) {
         StudyGroup studyGroup = studyGroupRepository.findById(id)
                 .orElseThrow(() -> new NotFound("스터디가 존재 하지 않습니다"));
 
-        return StudyDetailResponse.fromEntity(studyGroup);
+        studyGroup.updateStatusIfExpired(); // 상태 갱신
 
+        return StudyDetailResponse.fromEntity(studyGroup);
     }
 
     public List<StudyListResponse> getAllStudyGroups() {

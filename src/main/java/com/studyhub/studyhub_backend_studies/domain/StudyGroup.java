@@ -107,18 +107,24 @@ public class StudyGroup {
         }
     }
 
-    // 모집 종료 조건 검사
+    //모집 종료 조건
     private void updateStatusIfFull() {
         if (this.mentorCount >= this.maxMentor && this.menteeCount >= this.maxMentee) {
-            this.status = StudyStatus.COMPLETED;  // 또는 CLOSED, FULL 등
+            this.status = StudyStatus.ONGOING;
         }
     }
 
     // 다시 모집 가능 조건 검사
     private void updateStatusIfAvailable() {
-        if (this.status == StudyStatus.COMPLETED &&
+        if (this.status == StudyStatus.ONGOING &&
                 (this.mentorCount < this.maxMentor || this.menteeCount < this.maxMentee)) {
             this.status = StudyStatus.RECRUITING;
+        }
+    }
+
+    public void updateStatusIfExpired() {
+        if (this.status == StudyStatus.ONGOING && this.endDate.isBefore(LocalDate.now())) {
+            this.status = StudyStatus.COMPLETED;
         }
     }
 }
