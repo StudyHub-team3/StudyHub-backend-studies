@@ -15,12 +15,12 @@ public class StudyGroupProducerService {
 
     public void sendCreateStudyGroupEvent(StudyGroup studyGroup) {
         CreateStudyGroupEvent event = CreateStudyGroupEvent.fromEntity(studyGroup);
-        kafkaMessageProducer.send(CreateStudyGroupEvent.Topic, event);
+        //kafkaMessageProducer.send(CreateStudyGroupEvent.Topic, event);
     }
 
     public void sendDeleteStudyGroupEvent(StudyGroup studyGroup) {
         DeleteStudyGroupEvent event = DeleteStudyGroupEvent.fromEntity(studyGroup);
-        kafkaMessageProducer.send(DeleteStudyGroupEvent.Topic, event);
+        //kafkaMessageProducer.send(DeleteStudyGroupEvent.Topic, event);
     }
 
 }

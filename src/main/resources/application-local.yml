@@ -2,9 +2,9 @@ server:
   port: 8080
 spring:
   datasource:
-    url: jdbc:mysql://${MYSQL_HOST}/study?serverTimezone=UTC&useSSL=true&autoReconnect=true&useUnicode=true&characterEncoding=utf-8
-    username: ${MYSQL_USERNAME}
-    password: ${MYSQL_PASSWORD}
+    url: jdbc:mysql://backend-study-external-mysql-service:3306/study?serverTimezone=UTC&useSSL=true&autoReconnect=true&useUnicode=true&characterEncoding=utf-8
+    username: user
+    password: 1234
     driver-class-name: com.mysql.cj.jdbc.Driver
     hikari:
       connection-test-query: SELECT 1
@@ -15,8 +15,6 @@ spring:
     generate-ddl: true
     show-sql: true
     open-in-view: false
-  kafka:
-    bootstrap-servers: ${KAFKA_SERVER}
   cloud:
     config:
       enabled: false

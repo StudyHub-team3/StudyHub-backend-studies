@@ -8,6 +8,5 @@ import java.util.List;
 
 @Repository
 public interface StudyGroupRepository extends JpaRepository<StudyGroup,Long> {
-    StudyGroup findByUserId(String userId);
-    List<StudyGroup> findAllByCreatedBy(Long userId);
+    List<StudyGroup> findAllByCreatedBy(Long createdBy);
 }
