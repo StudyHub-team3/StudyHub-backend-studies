@@ -7,6 +7,7 @@ import com.studyhub.studyhub_backend_studies.domain.StudyGroup;
 import com.studyhub.studyhub_backend_studies.domain.dto.*;
 import com.studyhub.studyhub_backend_studies.domain.repository.StudyGroupRepository;
 import com.studyhub.studyhub_backend_studies.event.producer.KafkaMessageProducer;
+import com.studyhub.studyhub_backend_studies.event.service.StudyGroupProducerService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -21,12 +22,13 @@ import java.util.stream.Collectors;
 public class StudyGroupService {
 
     private final StudyGroupRepository studyGroupRepository;
-    private final KafkaMessageProducer kafkaMessageProducer;
+    private final StudyGroupProducerService studyGroupProducerService;
 
     @Transactional
     public void createStudyGroup(StudyCreateRequest request){
         StudyGroup studyGroup = request.toEntity();
         studyGroupRepository.save(studyGroup);
+        studyGroupProducerService.sendCreateStudyGroupEvent(studyGroup);
     }
 
     @Transactional
@@ -57,6 +59,8 @@ public class StudyGroupService {
         }
 
         studyGroupRepository.delete(studyGroup);
+        studyGroupProducerService.sendDeleteStudyGroupEvent(studyGroup);
+
     }
 
     public StudyDetailResponse getStudyGroup(Long id){
