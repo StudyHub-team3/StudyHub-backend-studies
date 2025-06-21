@@ -15,19 +15,19 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class BackendController {
 
-    private final StudyGroupService studyGroupService;
-
-    @GetMapping("/{studyId}")
-    public ApiResponseDto<InternalStudyInfoResponse> getStudyInfoForInternalUse(@PathVariable Long studyId) {
-        StudyGroup studyGroup = studyGroupService.findByIdOrThrow(studyId);
-        return ApiResponseDto.createOk(InternalStudyInfoResponse.from(studyGroup));
-    }
-
-
-    @GetMapping("/{studyId}/exists")
-    public ApiResponseDto<Boolean> checkStudyExists(@PathVariable Long studyId) {
-        boolean exists = studyGroupService.existsById(studyId);
-        return ApiResponseDto.createOk(exists);
-    }
+//    private final StudyGroupService studyGroupService;
+//
+//    @GetMapping("/{studyId}")
+//    public ApiResponseDto<InternalStudyInfoResponse> getStudyInfoForInternalUse(@PathVariable Long studyId) {
+//        StudyGroup studyGroup = studyGroupService.findByIdOrThrow(studyId);
+//        return ApiResponseDto.createOk(InternalStudyInfoResponse.from(studyGroup));
+//    }
+//
+//
+//    @GetMapping("/{studyId}/exists")
+//    public ApiResponseDto<Boolean> checkStudyExists(@PathVariable Long studyId) {
+//        boolean exists = studyGroupService.existsById(studyId);
+//        return ApiResponseDto.createOk(exists);
+//    }
 
 }

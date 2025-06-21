@@ -22,7 +22,7 @@ public class StudyGroupController {
         return ApiResponseDto.createOk(studyGroupService.getAllStudyGroups());
     }
 
-    @GetMapping
+    @GetMapping("/search")
     public ApiResponseDto<List<StudyListResponse>> searchStudyGroupList(@ModelAttribute StudySearchCondition condition) {
         return ApiResponseDto.createOk(studyGroupService.searchStudies(condition));
     }

@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class KafkaMessageConsumer {
 
-    @KafkaListener(
+/*    @KafkaListener(
             //topics= SiteUserInfoEvent.Topic,
             properties = {
                     JsonDeserializer.VALUE_DEFAULT_TYPE + ":com.studyhub.studyhub-backend-study.event.consumer.message"
@@ -23,5 +23,5 @@ public class KafkaMessageConsumer {
 
         ack.acknowledge();
 
-    }
+    }*/
 }
