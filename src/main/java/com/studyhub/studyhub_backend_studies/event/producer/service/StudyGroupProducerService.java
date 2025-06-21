@@ -1,8 +1,8 @@
-package com.studyhub.studyhub_backend_studies.event.service;
+package com.studyhub.studyhub_backend_studies.event.producer.service;
 
 import com.studyhub.studyhub_backend_studies.domain.StudyGroup;
-import com.studyhub.studyhub_backend_studies.event.CreateStudyGroupEvent;
-import com.studyhub.studyhub_backend_studies.event.DeleteStudyGroupEvent;
+import com.studyhub.studyhub_backend_studies.event.producer.event.CreateStudyGroupEvent;
+import com.studyhub.studyhub_backend_studies.event.producer.event.DeleteStudyGroupEvent;
 import com.studyhub.studyhub_backend_studies.event.producer.KafkaMessageProducer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

@@ -2,6 +2,7 @@ package com.studyhub.studyhub_backend_studies.domain.dto;
 
 import com.studyhub.studyhub_backend_studies.domain.StudyGroup;
 import com.studyhub.studyhub_backend_studies.domain.StudyGroupCategory;
+import com.studyhub.studyhub_backend_studies.domain.StudyStatus;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,6 +14,7 @@ public class StudyListResponse {
     private String groupName;
     private String description;
     private StudyGroupCategory category;
+    private StudyStatus status;
 
     private int mentorCount;
     private int maxMentor;
@@ -29,6 +31,7 @@ public class StudyListResponse {
         dto.setMaxMentor(studyGroup.getMaxMentor());
         dto.setMenteeCount(studyGroup.getMenteeCount());
         dto.setMaxMentee(studyGroup.getMaxMentee());
+        dto.setStatus(studyGroup.getStatus());
         return dto;
     }
 

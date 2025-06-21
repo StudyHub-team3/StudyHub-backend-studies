@@ -17,7 +17,7 @@ public class StudyInfoEvent {
         StudyInfoEvent event = new StudyInfoEvent();
 
         event.action = action;
-        event.userId = studyGroup.getUserId();
+        event.userId = studyGroup.getCreatedBy();
 
         return event;
     }

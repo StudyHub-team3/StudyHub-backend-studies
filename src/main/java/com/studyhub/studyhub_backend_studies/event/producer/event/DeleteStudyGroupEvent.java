@@ -1,4 +1,4 @@
-package com.studyhub.studyhub_backend_studies.event;
+package com.studyhub.studyhub_backend_studies.event.producer.event;
 
 import com.studyhub.studyhub_backend_studies.domain.StudyGroup;
 import lombok.*;
@@ -18,11 +18,11 @@ public class DeleteStudyGroupEvent {
     private Long deletedBy;    // 삭제 요청자 ID
     private LocalDateTime deletedAt; // 삭제 시각
 
-    public static DeleteStudyGroupEvent fromEntity(StudyGroup studyGroup, Long deletedBy) {
+    public static DeleteStudyGroupEvent fromEntity(StudyGroup studyGroup) {
         return DeleteStudyGroupEvent.builder()
                 .id(studyGroup.getId())
                 .groupName(studyGroup.getGroupName())
-                .deletedBy(deletedBy)
+                .deletedBy(studyGroup.getCreatedBy())
                 .deletedAt(LocalDateTime.now())
                 .build();
     }

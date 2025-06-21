@@ -4,16 +4,18 @@ import com.studyhub.studyhub_backend_studies.common.web.context.GatewayRequestHe
 import com.studyhub.studyhub_backend_studies.domain.StudyGroup;
 import com.studyhub.studyhub_backend_studies.domain.StudyGroupCategory;
 import jakarta.validation.constraints.NotBlank;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
 
 @Getter @Setter
+@Builder
 public class StudyCreateRequest {
 
     @NotBlank(message = "그룹명을 입력하세요")
-    private String name;
+    private String groupName;
     private String description;
     @NotBlank(message = "카테고리를 입력하세요")
     private StudyGroupCategory category;
@@ -25,17 +27,15 @@ public class StudyCreateRequest {
     private LocalDate endDate;
 
     public StudyGroup toEntity() {
-        StudyGroup studyGroup = new StudyGroup();
-
-        studyGroup.setCreatedBy(GatewayRequestHeaderUtils.getUserIdOrThrowException());
-        studyGroup.setDescription(this.description);
-        studyGroup.setEndDate(this.endDate);
-        studyGroup.setGroupName(this.name);
-        studyGroup.setMaxMentor(this.maxMentor);
-        studyGroup.setMaxMentee(this.maxMentee);
-        studyGroup.setCategory(this.category);
-
-        return studyGroup;
+        return StudyGroup.builder()
+                .createdBy(GatewayRequestHeaderUtils.getUserIdOrThrowException())
+                .groupName(this.groupName)
+                .description(this.description)
+                .category(this.category)
+                .endDate(this.endDate)
+                .maxMentor(this.maxMentor)
+                .maxMentee(this.maxMentee)
+                .build();
     }
 
 

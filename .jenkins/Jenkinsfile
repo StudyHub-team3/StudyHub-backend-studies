@@ -1,0 +1,74 @@
+def APP_NAME = "studyhub-backend-studies"
+def APP_VERSION
+def DOCKER_IMAGE_NAME
+
+pipeline {
+    agent {
+        node {
+            label 'master'
+        }
+    }
+
+    environment {
+        GIT_URL = "https://github.com/StudyHub-team3/studyhub-backend-studies.git"
+        GITHUB_CREDENTIAL = "github-token"
+        ARTIFACTS = "build/libs/**"
+        DOCKER_REGISTRY = "danajlim"
+        DOCKERHUB_CREDENTIAL = "dockerhub-token"
+    }
+
+    options {
+        disableConcurrentBuilds()
+        buildDiscarder(logRotator(numToKeepStr: "10", artifactNumToKeepStr: "10"))
+        timeout(time: 60, unit: 'MINUTES')
+    }
+
+    tools {
+        gradle 'Gradle 8.14.2'
+        jdk 'OpenJDK 17'
+        dockerTool 'Docker'
+    }
+
+    stages {
+        stage('Set Version') {
+            steps {
+                script {
+                    APP_VERSION = sh(
+                        script: "./gradlew -q getAppVersion",
+                        returnStdout: true
+                    ).trim()
+                    DOCKER_IMAGE_NAME = "${DOCKER_REGISTRY}/${APP_NAME}:${APP_VERSION}"
+                }
+
+                sh "echo APP_NAME: ${APP_NAME}"
+                sh "echo APP_VERSION: ${APP_VERSION}"
+                sh "echo DOCKER_IMAGE_NAME: ${DOCKER_IMAGE_NAME}"
+            }
+        }
+
+        stage('Build & Test Application') {
+            steps {
+                sh "./gradlew clean build"
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                script {
+                    docker.build("${DOCKER_IMAGE_NAME}", "-f .docker/Dockerfile .")
+                }
+            }
+        }
+
+        stage('Push Docker Image') {
+            steps {
+                script {
+                    docker.withRegistry("", DOCKERHUB_CREDENTIAL) {
+                        docker.image("${DOCKER_IMAGE_NAME}").push()
+                    }
+                    sh "docker rmi ${DOCKER_IMAGE_NAME}"
+                }
+            }
+        }
+    }
+}
