@@ -1,4 +1,4 @@
-package com.studyhub.studyhub_backend_studies.controller;
+package com.studyhub.studyhub_backend_studies.api.open;
 
 import com.studyhub.studyhub_backend_studies.common.dto.ApiResponseDto;
 import com.studyhub.studyhub_backend_studies.domain.dto.*;

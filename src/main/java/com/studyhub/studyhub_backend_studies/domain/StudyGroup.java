@@ -1,8 +1,7 @@
 package com.studyhub.studyhub_backend_studies.domain;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 
 import java.time.LocalDate;
@@ -12,6 +11,7 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name="study_group")
 @Getter @Setter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class StudyGroup {
 
     @Id
@@ -28,8 +28,13 @@ public class StudyGroup {
     @Column(name="description", nullable = false, columnDefinition = "TEXT")
     private String description;
 
+    @Enumerated(EnumType.STRING)
     @Column(name="category", nullable = false)
     private StudyGroupCategory category;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name="status", nullable = false)
+    private StudyStatus status = StudyStatus.RECRUITING;
 
     @Column(name="created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
@@ -52,6 +57,18 @@ public class StudyGroup {
     @Column(name="mentee_count", nullable = false, columnDefinition = "int default 0")
     private int menteeCount = 0;
 
+    @Builder
+    public StudyGroup(Long createdBy, String groupName, String description,
+                      StudyGroupCategory category, LocalDate endDate,
+                      int maxMentor, int maxMentee) {
+        this.createdBy = createdBy;
+        this.groupName = groupName;
+        this.description = description;
+        this.category = category;
+        this.endDate = endDate;
+        this.maxMentor = maxMentor;
+        this.maxMentee = maxMentee;
+    }
 
     // 생성/수정 시간 자동 세팅
     @PrePersist

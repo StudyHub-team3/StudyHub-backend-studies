@@ -6,7 +6,7 @@ import com.studyhub.studyhub_backend_studies.common.web.context.GatewayRequestHe
 import com.studyhub.studyhub_backend_studies.domain.StudyGroup;
 import com.studyhub.studyhub_backend_studies.domain.dto.*;
 import com.studyhub.studyhub_backend_studies.domain.repository.StudyGroupRepository;
-import com.studyhub.studyhub_backend_studies.event.service.StudyGroupProducerService;
+import com.studyhub.studyhub_backend_studies.event.producer.service.StudyGroupProducerService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -121,6 +121,13 @@ public class StudyGroupService {
                 .collect(Collectors.toList());
     }
 
+    public StudyGroup findByIdOrThrow(Long studyId) {
+        return studyGroupRepository.findById(studyId)
+                .orElseThrow(() -> new NotFound("스터디가 존재하지 않습니다."));
+    }
 
+    public boolean existsById(Long studyId) {
+        return studyGroupRepository.existsById(studyId);
+    }
 
 }

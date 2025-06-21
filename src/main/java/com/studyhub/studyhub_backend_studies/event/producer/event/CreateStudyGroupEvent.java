@@ -1,4 +1,4 @@
-package com.studyhub.studyhub_backend_studies.event;
+package com.studyhub.studyhub_backend_studies.event.producer.event;
 
 import com.studyhub.studyhub_backend_studies.domain.StudyGroup;
 import lombok.AllArgsConstructor;

@@ -25,17 +25,15 @@ public class StudyCreateRequest {
     private LocalDate endDate;
 
     public StudyGroup toEntity() {
-        StudyGroup studyGroup = new StudyGroup();
-
-        studyGroup.setCreatedBy(GatewayRequestHeaderUtils.getUserIdOrThrowException());
-        studyGroup.setDescription(this.description);
-        studyGroup.setEndDate(this.endDate);
-        studyGroup.setGroupName(this.name);
-        studyGroup.setMaxMentor(this.maxMentor);
-        studyGroup.setMaxMentee(this.maxMentee);
-        studyGroup.setCategory(this.category);
-
-        return studyGroup;
+        return StudyGroup.builder()
+                .createdBy(GatewayRequestHeaderUtils.getUserIdOrThrowException())
+                .groupName(this.name)
+                .description(this.description)
+                .category(this.category)
+                .endDate(this.endDate)
+                .maxMentor(this.maxMentor)
+                .maxMentee(this.maxMentee)
+                .build();
     }
 
 
