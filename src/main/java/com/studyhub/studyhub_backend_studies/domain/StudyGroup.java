@@ -81,4 +81,24 @@ public class StudyGroup {
     protected void onUpdate() {
         this.updatedAt = LocalDateTime.now();
     }
+
+
+    // 멘토 수 증가
+    public void increaseMentorCount() {
+        this.mentorCount++;
+        updateStatusIfFull();
+    }
+
+    // 멘티 수 증가
+    public void increaseMenteeCount() {
+        this.menteeCount++;
+        updateStatusIfFull();
+    }
+
+    // 상태 업데이트
+    private void updateStatusIfFull() {
+        if (this.mentorCount >= this.maxMentor && this.menteeCount >= this.maxMentee) {
+            this.status = StudyStatus.COMPLETED; // 혹은 FULL, CLOSED 등
+        }
+    }
 }
