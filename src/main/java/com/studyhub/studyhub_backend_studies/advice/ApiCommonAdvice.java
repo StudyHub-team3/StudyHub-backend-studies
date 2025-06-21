@@ -1,6 +1,10 @@
 package com.studyhub.studyhub_backend_studies.advice;
 
 
+import com.studyhub.studyhub_backend_studies.common.dto.ApiResponseDto;
+import com.studyhub.studyhub_backend_studies.common.exception.BadParameter;
+import com.studyhub.studyhub_backend_studies.common.exception.ClientError;
+import com.studyhub.studyhub_backend_studies.common.exception.NotFound;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
