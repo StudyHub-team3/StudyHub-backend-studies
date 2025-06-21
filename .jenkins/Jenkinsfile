@@ -1,4 +1,4 @@
-def APP_NAME = "studyhub-backend-studies"
+def APP_NAME = "studyhub-backend-study"
 def APP_VERSION
 def DOCKER_IMAGE_NAME
 
@@ -10,7 +10,7 @@ pipeline {
     }
 
     environment {
-        GIT_URL = "https://github.com/StudyHub-team3/studyhub-backend-studies.git"
+        GIT_URL = "https://github.com/StudyHub-team3/studyhub-backend-study.git"
         GITHUB_CREDENTIAL = "github-token"
         ARTIFACTS = "build/libs/**"
         DOCKER_REGISTRY = "danajlim"
