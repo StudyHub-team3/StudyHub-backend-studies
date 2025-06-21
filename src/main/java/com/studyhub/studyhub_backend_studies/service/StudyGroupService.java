@@ -6,7 +6,6 @@ import com.studyhub.studyhub_backend_studies.common.web.context.GatewayRequestHe
 import com.studyhub.studyhub_backend_studies.domain.StudyGroup;
 import com.studyhub.studyhub_backend_studies.domain.dto.*;
 import com.studyhub.studyhub_backend_studies.domain.repository.StudyGroupRepository;
-import com.studyhub.studyhub_backend_studies.event.producer.KafkaMessageProducer;
 import com.studyhub.studyhub_backend_studies.event.service.StudyGroupProducerService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -25,14 +25,19 @@ public class StudyGroupService {
     private final StudyGroupProducerService studyGroupProducerService;
 
     @Transactional
-    public void createStudyGroup(StudyCreateRequest request){
+    public Map<String, Object> createStudyGroup(StudyCreateRequest request) {
         StudyGroup studyGroup = request.toEntity();
         studyGroupRepository.save(studyGroup);
         studyGroupProducerService.sendCreateStudyGroupEvent(studyGroup);
+
+        return Map.of(
+                "studyId", studyGroup.getId(),
+                "createdAt", studyGroup.getCreatedAt().toString()
+        );
     }
 
     @Transactional
-    public void updateStudyGroup(Long id, StudyUpdateRequest request) {
+    public Map<String, Object> updateStudyGroup(Long id, StudyUpdateRequest request) {
         StudyGroup studyGroup = studyGroupRepository.findById(id)
                 .orElseThrow(() -> new NotFound("스터디가 존재 하지 않습니다"));
 
@@ -45,10 +50,15 @@ public class StudyGroupService {
         studyGroup.setGroupName(request.getName());
         studyGroup.setDescription(request.getDescription());
         studyGroup.setEndDate(request.getEndDate());
+
+        return Map.of(
+                "studyId", studyGroup.getId(),
+                "updatedAt", studyGroup.getUpdatedAt().toString()
+        );
     }
 
     @Transactional
-    public void deleteStudyGroup(Long id) {
+    public Map<String, Object> deleteStudyGroup(Long id) {
         StudyGroup studyGroup = studyGroupRepository.findById(id)
                 .orElseThrow(() -> new NotFound("스터디가 존재 하지 않습니다"));
 
@@ -61,6 +71,9 @@ public class StudyGroupService {
         studyGroupRepository.delete(studyGroup);
         studyGroupProducerService.sendDeleteStudyGroupEvent(studyGroup);
 
+        return Map.of(
+                "studyId", studyGroup.getId()
+        );
     }
 
     public StudyDetailResponse getStudyGroup(Long id){
