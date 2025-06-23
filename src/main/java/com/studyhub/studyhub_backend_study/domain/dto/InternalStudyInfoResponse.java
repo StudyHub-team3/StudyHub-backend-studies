@@ -13,6 +13,12 @@ public class InternalStudyInfoResponse {
     private String groupName;
     private String category;
     private String status;
+
+    private int mentorCount;
+    private int menteeCount;
+    private int maxMentor;
+    private int maxMentee;
+
     private LocalDateTime createdAt;
 
     public static InternalStudyInfoResponse from(StudyGroup studyGroup) {
@@ -21,6 +27,12 @@ public class InternalStudyInfoResponse {
                 studyGroup.getGroupName(),
                 studyGroup.getCategory().name(),
                 studyGroup.getStatus().name(),
+
+                studyGroup.getMentorCount(),
+                studyGroup.getMenteeCount(),
+                studyGroup.getMaxMentor(),
+                studyGroup.getMaxMentee(),
+
                 studyGroup.getCreatedAt()
         );
     }
