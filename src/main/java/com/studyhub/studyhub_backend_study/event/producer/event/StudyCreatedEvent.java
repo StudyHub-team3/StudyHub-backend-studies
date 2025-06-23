@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class StudyCreatedEvent {
 
-    public static final String Topic = "study_group";
+    public static final String Topic = "study";
 
     private Long studyId;
     private Long userId;

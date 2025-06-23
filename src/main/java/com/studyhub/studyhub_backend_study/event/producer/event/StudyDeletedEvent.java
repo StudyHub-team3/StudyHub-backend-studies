@@ -9,7 +9,7 @@ import lombok.*;
 @AllArgsConstructor
 public class StudyDeletedEvent {
 
-    public static final String Topic = "study_group";
+    public static final String Topic = "study";
 
     private Long studyId;
     private Long userId;

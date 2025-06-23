@@ -6,6 +6,7 @@ import com.studyhub.studyhub_backend_study.common.web.context.GatewayRequestHead
 import com.studyhub.studyhub_backend_study.domain.StudyGroup;
 import com.studyhub.studyhub_backend_study.domain.dto.*;
 import com.studyhub.studyhub_backend_study.domain.repository.StudyGroupRepository;
+import com.studyhub.studyhub_backend_study.event.consumer.StudyCrewEvent;
 import com.studyhub.studyhub_backend_study.event.producer.service.StudyGroupProducerService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,6 +29,7 @@ public class StudyGroupService {
     public Map<String, Object> createStudyGroup(StudyCreateRequest request) {
         StudyGroup studyGroup = request.toEntity();
         studyGroupRepository.save(studyGroup);
+
         studyGroupProducerService.sendCreateStudyGroupEvent(studyGroup);
 
         return Map.of(
@@ -129,6 +131,38 @@ public class StudyGroupService {
 
     public boolean existsById(Long studyId) {
         return studyGroupRepository.existsById(studyId);
+    }
+
+    public void handleMemberJoin(StudyCrewEvent event) {
+        StudyGroup study = studyGroupRepository.findById(event.getStudyId())
+                .orElseThrow(() -> new RuntimeException("스터디 없음"));
+
+        if (study.isFull()) {
+            // 정원이 꽉 찬 경우 예외 처리 또는 로그만 남기고 리턴
+            log.warn("스터디 정원 초과로 추가 불가 - studyId: {}", event.getStudyId());
+            return;
+        }
+
+        if ("MENTOR".equalsIgnoreCase(event.getRole())) {
+            study.increaseMentorCount();
+        } else if ("MENTEE".equalsIgnoreCase(event.getRole())) {
+            study.increaseMenteeCount();
+        }
+
+        studyGroupRepository.save(study);
+    }
+
+    public void handleMemberQuit(Long studyId, String role) {
+        StudyGroup group = studyGroupRepository.findById(studyId)
+                .orElseThrow(() -> new RuntimeException("스터디 없음"));
+
+        if ("MENTOR".equalsIgnoreCase(role)) {
+            group.decreaseMentorCount();
+        } else if ("MENTEE".equalsIgnoreCase(role)) {
+            group.decreaseMenteeCount();
+        }
+
+        studyGroupRepository.save(group);
     }
 
 }

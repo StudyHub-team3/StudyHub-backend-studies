@@ -83,6 +83,11 @@ public class StudyGroup {
     }
 
 
+    public boolean isFull() {
+        return mentorCount >= maxMentor && menteeCount >= maxMentee;
+    }
+
+
     public void increaseMentorCount() {
         this.mentorCount++;
         updateStatusIfFull();
@@ -127,4 +132,5 @@ public class StudyGroup {
             this.status = StudyStatus.COMPLETED;
         }
     }
+
 }
