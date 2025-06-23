@@ -32,9 +32,13 @@ public class StudyCrewEventConsumer {
 
             switch (eventType) {
                 case "STUDY_CREW_JOINED" -> {
+                    log.info("[🛜Kafka 수신] eventType={}, studyId={}, userId={}, role={}",
+                            eventType, data.getStudyId(), data.getUserId(), data.getRole());
                     studyGroupService.handleMemberJoin(data);
                 }
                 case "STUDY_CREW_QUITED" -> {
+                    log.info("[🛜Kafka 수신] eventType={}, studyId={}, userId={}, role={}",
+                            eventType, data.getStudyId(), data.getUserId(), data.getRole());
                     studyGroupService.handleMemberQuit(data.getStudyId(), data.getRole());
                 }
                 default -> log.warn("알 수 없는 이벤트 타입: {}", eventType);
