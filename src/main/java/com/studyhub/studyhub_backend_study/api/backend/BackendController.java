@@ -11,18 +11,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(value = "backend/studygroup")
+@RequestMapping(value = "backend/studies")
 @RequiredArgsConstructor
 public class BackendController {
 
-//    private final StudyGroupService studyGroupService;
-//
-//    @GetMapping("/{studyId}")
-//    public ApiResponseDto<InternalStudyInfoResponse> getStudyInfoForInternalUse(@PathVariable Long studyId) {
-//        StudyGroup studyGroup = studyGroupService.findByIdOrThrow(studyId);
-//        return ApiResponseDto.createOk(InternalStudyInfoResponse.from(studyGroup));
-//    }
-//
+    private final StudyGroupService studyGroupService;
+
+    @GetMapping("/{studyId}")
+    public ApiResponseDto<InternalStudyInfoResponse> getStudyInfoForInternalUse(@PathVariable Long studyId) {
+        StudyGroup studyGroup = studyGroupService.findByIdOrThrow(studyId);
+        return ApiResponseDto.createOk(InternalStudyInfoResponse.from(studyGroup));
+    }
+
 //
 //    @GetMapping("/{studyId}/exists")
 //    public ApiResponseDto<Boolean> checkStudyExists(@PathVariable Long studyId) {
