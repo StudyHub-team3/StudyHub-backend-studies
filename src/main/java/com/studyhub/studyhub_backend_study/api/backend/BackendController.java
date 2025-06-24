@@ -29,5 +29,4 @@ public class BackendController {
 //        boolean exists = studyGroupService.existsById(studyId);
 //        return ApiResponseDto.createOk(exists);
 //    }
-
 }
