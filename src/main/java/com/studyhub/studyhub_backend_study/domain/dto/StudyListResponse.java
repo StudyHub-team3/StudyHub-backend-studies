@@ -9,6 +9,8 @@ import lombok.Setter;
 @Getter @Setter
 public class StudyListResponse {
 
+    private long id;
+
     private String groupName;
     private String description;
     private StudyGroupCategory category;
@@ -22,6 +24,7 @@ public class StudyListResponse {
 
     public static StudyListResponse of(StudyGroup studyGroup) {
         StudyListResponse dto = new StudyListResponse();
+        dto.setId(studyGroup.getId());
         dto.setGroupName(studyGroup.getGroupName());
         dto.setDescription(studyGroup.getDescription());
         dto.setCategory(studyGroup.getCategory());

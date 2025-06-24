@@ -6,8 +6,8 @@ import com.studyhub.studyhub_backend_study.common.web.context.GatewayRequestHead
 import com.studyhub.studyhub_backend_study.domain.StudyGroup;
 import com.studyhub.studyhub_backend_study.domain.dto.*;
 import com.studyhub.studyhub_backend_study.domain.repository.StudyGroupRepository;
-import com.studyhub.studyhub_backend_study.event.consumer.StudyCrewEvent;
-import com.studyhub.studyhub_backend_study.event.producer.service.StudyGroupProducerService;
+import com.studyhub.studyhub_backend_study.event.consumer.message.StudyCrewEvent;
+import com.studyhub.studyhub_backend_study.event.producer.KafkaMessageProducer;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -23,14 +23,14 @@ import java.util.stream.Collectors;
 public class StudyGroupService {
 
     private final StudyGroupRepository studyGroupRepository;
-    private final StudyGroupProducerService studyGroupProducerService;
+    private final KafkaMessageProducer kafkaMessageProducer;
 
     @Transactional
     public Map<String, Object> createStudyGroup(StudyCreateRequest request) {
         StudyGroup studyGroup = request.toEntity();
         studyGroupRepository.save(studyGroup);
 
-        studyGroupProducerService.sendCreateStudyGroupEvent(studyGroup);
+        kafkaMessageProducer.sendCreateStudyGroupEvent(studyGroup);
 
         return Map.of(
                 "studyId", studyGroup.getId(),
@@ -71,7 +71,7 @@ public class StudyGroupService {
         }
 
         studyGroupRepository.delete(studyGroup);
-        studyGroupProducerService.sendDeleteStudyGroupEvent(studyGroup);
+        kafkaMessageProducer.sendDeleteStudyGroupEvent(studyGroup);
 
         return Map.of(
                 "studyId", studyGroup.getId()

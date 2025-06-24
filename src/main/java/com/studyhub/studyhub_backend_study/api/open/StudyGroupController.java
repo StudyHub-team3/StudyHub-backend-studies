@@ -12,6 +12,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping(value = "/api/studies")
+@CrossOrigin(origins = "http://localhost:5173")
 @RequiredArgsConstructor
 public class StudyGroupController {
 
