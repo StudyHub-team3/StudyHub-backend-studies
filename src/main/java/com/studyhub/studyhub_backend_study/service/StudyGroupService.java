@@ -28,9 +28,22 @@ public class StudyGroupService {
     @Transactional
     public Map<String, Object> createStudyGroup(StudyCreateRequest request, String userName) {
         StudyGroup studyGroup = request.toEntity();
+
+        String role = request.getCreatorRole();
+        if ("MENTOR".equalsIgnoreCase(role)) {
+            studyGroup.setMentorCount(1);
+            studyGroup.setMenteeCount(0);
+        } else if ("MENTEE".equalsIgnoreCase(role)) {
+            studyGroup.setMentorCount(0);
+            studyGroup.setMenteeCount(1);
+        } else {
+            // 유효하지 않은 값 처리
+            throw new IllegalArgumentException("Invalid role: " + role);
+        }
+
         studyGroupRepository.save(studyGroup);
 
-        kafkaMessageProducer.sendCreateStudyGroupEvent(studyGroup,userName);
+        kafkaMessageProducer.sendCreateStudyGroupEvent(studyGroup,userName,role);
 
         return Map.of(
                 "studyId", studyGroup.getId(),

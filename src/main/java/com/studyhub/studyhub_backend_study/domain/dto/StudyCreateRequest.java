@@ -23,6 +23,8 @@ public class StudyCreateRequest {
     private int maxMentor;
     @NotBlank(message = "최대 멘티수를 입력하세요")
     private int maxMentee;
+    @NotBlank(message = "자기 롤을 입력하세요.")
+    private String creatorRole;
     @NotBlank(message = "끝나는 날짜를 입력하세요")
     private LocalDate endDate;
 

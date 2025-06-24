@@ -17,13 +17,15 @@ public class StudyCreatedEvent {
     private Long studyId;
     private Long userId;
     private String userName;
+    private String creatorRole;
 
 
-    public static StudyCreatedEvent fromEntity(StudyGroup studyGroup, String userName) {
+    public static StudyCreatedEvent fromEntity(StudyGroup studyGroup, String userName, String creatorRole) {
         return StudyCreatedEvent.builder()
                 .studyId(studyGroup.getId())
                 .userId(studyGroup.getCreatedBy())
                 .userName(userName)
+                .creatorRole(creatorRole)
                 .build();
     }
 }
