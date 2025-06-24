@@ -30,21 +30,21 @@ public class KafkaMessageConsumer {
 
             switch (eventType) {
                 case "STUDY_CREW_JOINED" -> {
-                    log.info("[🛜Kafka 수신] eventType={}, studyId={}, userId={}, role={}",
+                    log.info("[🛜Kafka 수신] eventType={}, studyId={}, userId={}, userName={}, role={}",
                             eventType, data.getStudyId(), data.getUserId(), data.getRole());
                     studyGroupService.handleMemberJoin(data);
                 }
                 case "STUDY_CREW_QUITED" -> {
-                    log.info("[🛜Kafka 수신] eventType={}, studyId={}, userId={}, role={}",
+                    log.info("[🛜Kafka 수신] eventType={}, studyId={}, userId={}, userName={}, role={}",
                             eventType, data.getStudyId(), data.getUserId(), data.getRole());
                     studyGroupService.handleMemberQuit(data.getStudyId(), data.getRole());
                 }
-                default -> log.warn("❗알 수 없는 이벤트 타입: {}", eventType);
+                default -> log.warn("알 수 없는 이벤트 타입: {}", eventType);
             }
 
             ack.acknowledge();
         } catch (Exception e) {
-            log.error("❌ Kafka 이벤트 처리 중 예외 발생", e);
+            log.error("Kafka 이벤트 처리 중 예외 발생", e);
         }
     }
 }

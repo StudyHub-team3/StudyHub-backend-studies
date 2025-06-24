@@ -9,5 +9,6 @@ public class StudyCrewEvent {
 
     private Long studyId;
     private Long userId;
+    private String userName;
     private String role;
 }
