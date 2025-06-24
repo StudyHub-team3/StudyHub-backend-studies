@@ -5,7 +5,6 @@ import com.studyhub.studyhub_backend_study.domain.StudyGroup;
 import com.studyhub.studyhub_backend_study.domain.dto.StudyCreateRequest;
 import com.studyhub.studyhub_backend_study.domain.repository.StudyGroupRepository;
 import com.studyhub.studyhub_backend_study.domain.StudyGroupCategory;
-import com.studyhub.studyhub_backend_study.event.producer.service.StudyGroupProducerService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

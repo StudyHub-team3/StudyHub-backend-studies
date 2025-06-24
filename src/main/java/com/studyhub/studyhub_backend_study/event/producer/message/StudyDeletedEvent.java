@@ -1,4 +1,4 @@
-package com.studyhub.studyhub_backend_study.event.producer.event;
+package com.studyhub.studyhub_backend_study.event.producer.message;
 
 import com.studyhub.studyhub_backend_study.domain.StudyGroup;
 import lombok.*;

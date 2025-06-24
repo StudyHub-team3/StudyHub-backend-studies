@@ -1,12 +1,14 @@
 package com.studyhub.studyhub_backend_study.event.producer;
 
+import com.studyhub.studyhub_backend_study.domain.StudyGroup;
 import com.studyhub.studyhub_backend_study.event.KafkaEvent;
+import com.studyhub.studyhub_backend_study.event.producer.message.StudyCreatedEvent;
+import com.studyhub.studyhub_backend_study.event.producer.message.StudyDeletedEvent;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
 
 @Component
 @RequiredArgsConstructor
@@ -16,5 +18,27 @@ public class KafkaMessageProducer {
 
     public <T> void send(String topic, KafkaEvent<T> event) {
         kafkaTemplate.send(topic, event);
+    }
+
+    public void sendCreateStudyGroupEvent(StudyGroup studyGroup) {
+        StudyCreatedEvent eventData = StudyCreatedEvent.fromEntity(studyGroup);
+        KafkaEvent<StudyCreatedEvent> kafkaEvent = KafkaEvent.<StudyCreatedEvent>builder()
+                .eventType("STUDY_CREATED")
+                .data(eventData)
+                .timestamp(LocalDateTime.now().toString())
+                .build();
+
+        this.send(StudyCreatedEvent.Topic, kafkaEvent);
+    }
+
+    public void sendDeleteStudyGroupEvent(StudyGroup studyGroup) {
+        StudyDeletedEvent eventData = StudyDeletedEvent.fromEntity(studyGroup);
+        KafkaEvent<StudyDeletedEvent> kafkaEvent = KafkaEvent.<StudyDeletedEvent>builder()
+                .eventType("STUDY_DELETED")
+                .data(eventData)
+                .timestamp(LocalDateTime.now().toString())
+                .build();
+
+        this.send(StudyDeletedEvent.Topic, kafkaEvent);
     }
 }

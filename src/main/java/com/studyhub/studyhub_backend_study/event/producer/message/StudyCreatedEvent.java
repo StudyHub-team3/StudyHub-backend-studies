@@ -1,13 +1,10 @@
-package com.studyhub.studyhub_backend_study.event.producer.event;
+package com.studyhub.studyhub_backend_study.event.producer.message;
 
 import com.studyhub.studyhub_backend_study.domain.StudyGroup;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Getter
 @Builder
