@@ -26,11 +26,11 @@ public class StudyGroupService {
     private final KafkaMessageProducer kafkaMessageProducer;
 
     @Transactional
-    public Map<String, Object> createStudyGroup(StudyCreateRequest request) {
+    public Map<String, Object> createStudyGroup(StudyCreateRequest request, String userName) {
         StudyGroup studyGroup = request.toEntity();
         studyGroupRepository.save(studyGroup);
 
-        kafkaMessageProducer.sendCreateStudyGroupEvent(studyGroup);
+        kafkaMessageProducer.sendCreateStudyGroupEvent(studyGroup,userName);
 
         return Map.of(
                 "studyId", studyGroup.getId(),

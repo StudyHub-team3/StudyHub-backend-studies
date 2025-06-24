@@ -16,12 +16,14 @@ public class StudyCreatedEvent {
 
     private Long studyId;
     private Long userId;
+    private String userName;
 
 
-    public static StudyCreatedEvent fromEntity(StudyGroup studyGroup) {
+    public static StudyCreatedEvent fromEntity(StudyGroup studyGroup, String userName) {
         return StudyCreatedEvent.builder()
                 .studyId(studyGroup.getId())
                 .userId(studyGroup.getCreatedBy())
+                .userName(userName)
                 .build();
     }
 }

@@ -20,8 +20,8 @@ public class KafkaMessageProducer {
         kafkaTemplate.send(topic, event);
     }
 
-    public void sendCreateStudyGroupEvent(StudyGroup studyGroup) {
-        StudyCreatedEvent eventData = StudyCreatedEvent.fromEntity(studyGroup);
+    public void sendCreateStudyGroupEvent(StudyGroup studyGroup, String userName) {
+        StudyCreatedEvent eventData = StudyCreatedEvent.fromEntity(studyGroup,userName);
         KafkaEvent<StudyCreatedEvent> kafkaEvent = KafkaEvent.<StudyCreatedEvent>builder()
                 .eventType("STUDY_CREATED")
                 .data(eventData)

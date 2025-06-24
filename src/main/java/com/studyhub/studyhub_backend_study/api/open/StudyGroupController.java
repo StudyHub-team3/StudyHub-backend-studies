@@ -34,9 +34,9 @@ public class StudyGroupController {
     }
 
     @PostMapping
-    public ApiResponseDto<Map<String, Object>> createStudyGroup(@RequestBody @Valid StudyCreateRequest request) {
-        studyGroupService.createStudyGroup(request);
-        return ApiResponseDto.createOk(studyGroupService.createStudyGroup(request));
+    public ApiResponseDto<Map<String, Object>> createStudyGroup(@RequestBody @Valid StudyCreateRequest request, @RequestHeader("X-Auth-UserName") String userName) {
+        studyGroupService.createStudyGroup(request, userName);
+        return ApiResponseDto.createOk(studyGroupService.createStudyGroup(request,userName));
     }
 
     @GetMapping("/{studyId}")

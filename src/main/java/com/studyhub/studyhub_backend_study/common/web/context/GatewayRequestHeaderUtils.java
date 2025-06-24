@@ -76,4 +76,16 @@ public class GatewayRequestHeaderUtils {
         }
         return clientAddress;
     }
+
+    public static String getUserName() {
+        return getRequestHeaderParamAsString("X-Auth-UserName");
+    }
+
+    public static String getUserNameOrThrowException() {
+        String userName = getRequestHeaderParamAsString("X-Auth-UserName");
+        if (userName == null || userName.isBlank()) {
+            throw new Unauthorized("사용자 이름 정보가 없습니다.");
+        }
+        return userName;
+    }
 }
