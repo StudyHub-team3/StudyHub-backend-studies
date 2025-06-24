@@ -1,6 +1,5 @@
 package com.studyhub.studyhub_backend_study.event.consumer;
 
-import com.studyhub.studyhub_backend_study.event.KafkaEvent;
 import com.studyhub.studyhub_backend_study.event.consumer.message.StudyCrewEvent;
 import com.studyhub.studyhub_backend_study.service.StudyGroupService;
 import lombok.RequiredArgsConstructor;
@@ -18,33 +17,32 @@ public class KafkaMessageConsumer {
     private final StudyGroupService studyGroupService;
 
     @KafkaListener(
-            topics = StudyCrewEvent.Topic,
-            properties = {
-                    JsonDeserializer.VALUE_DEFAULT_TYPE + ":com.studyhub.studyhub_backend_study.event.KafkaEvent"
-            }
+        topics = StudyCrewEvent.Topic,
+        properties = {
+            JsonDeserializer.VALUE_DEFAULT_TYPE + ":com.studyhub.studyhub_backend_study.event.consumer.message.StudyCrewEvent"
+        }
     )
-    public void handleStudyCrewEvent(KafkaEvent<StudyCrewEvent> event, Acknowledgment ack) {
+    public void handleStudyCrewEvent(StudyCrewEvent event, Acknowledgment ack) {
         try {
             String eventType = event.getEventType();
-            StudyCrewEvent data = event.getData();
+            StudyCrewEvent.Data data = event.getData();
+
+            log.info("📩 Kafka 수신 이벤트: eventType={}, studyId={}, userId={}, userName={}, role={}",
+                    eventType, data.getStudyId(), data.getUserId(), data.getUserName(), data.getRole());
 
             switch (eventType) {
                 case "STUDY_CREW_JOINED" -> {
-                    log.info("[🛜Kafka 수신] eventType={}, studyId={}, userId={}, userName={}, role={}",
-                            eventType, data.getStudyId(), data.getUserId(), data.getRole());
-                    studyGroupService.handleMemberJoin(data);
+                    studyGroupService.handleMemberJoin(event);
                 }
                 case "STUDY_CREW_QUITED" -> {
-                    log.info("[🛜Kafka 수신] eventType={}, studyId={}, userId={}, userName={}, role={}",
-                            eventType, data.getStudyId(), data.getUserId(), data.getRole());
-                    studyGroupService.handleMemberQuit(data.getStudyId(), data.getRole());
+                    studyGroupService.handleMemberQuit(event);
                 }
                 default -> log.warn("알 수 없는 이벤트 타입: {}", eventType);
             }
 
             ack.acknowledge();
         } catch (Exception e) {
-            log.error("Kafka 이벤트 처리 중 예외 발생", e);
+            log.error("❌ Kafka 이벤트 처리 중 예외 발생", e);
         }
     }
 }

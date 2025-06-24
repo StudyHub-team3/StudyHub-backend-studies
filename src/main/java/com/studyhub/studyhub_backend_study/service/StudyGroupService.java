@@ -147,31 +147,32 @@ public class StudyGroupService {
     }
 
     public void handleMemberJoin(StudyCrewEvent event) {
-        StudyGroup study = studyGroupRepository.findById(event.getStudyId())
+        StudyGroup study = studyGroupRepository.findById(event.getData().getStudyId())
                 .orElseThrow(() -> new RuntimeException("스터디 없음"));
 
         if (study.isFull()) {
             // 정원이 꽉 찬 경우 예외 처리 또는 로그만 남기고 리턴
-            log.warn("스터디 정원 초과로 추가 불가 - studyId: {}", event.getStudyId());
+            log.warn("스터디 정원 초과로 추가 불가 - studyId: {}", event.getData().getStudyId());
             return;
         }
 
-        if ("MENTOR".equalsIgnoreCase(event.getRole())) {
+        if ("MENTOR".equalsIgnoreCase(event.getData().getRole())) {
             study.increaseMentorCount();
-        } else if ("MENTEE".equalsIgnoreCase(event.getRole())) {
+        } else if ("MENTEE".equalsIgnoreCase(event.getData().getRole())) {
             study.increaseMenteeCount();
         }
 
         studyGroupRepository.save(study);
     }
 
-    public void handleMemberQuit(Long studyId, String role) {
-        StudyGroup group = studyGroupRepository.findById(studyId)
+    public void handleMemberQuit(StudyCrewEvent event) {
+        StudyCrewEvent.Data data = event.getData();
+        StudyGroup group = studyGroupRepository.findById(data.getStudyId())
                 .orElseThrow(() -> new RuntimeException("스터디 없음"));
 
-        if ("MENTOR".equalsIgnoreCase(role)) {
+        if ("MENTOR".equalsIgnoreCase(data.getRole())) {
             group.decreaseMentorCount();
-        } else if ("MENTEE".equalsIgnoreCase(role)) {
+        } else if ("MENTEE".equalsIgnoreCase(data.getRole())) {
             group.decreaseMenteeCount();
         }
 
