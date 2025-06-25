@@ -35,8 +35,8 @@ public class StudyGroupController {
 
     @PostMapping
     public ApiResponseDto<Map<String, Object>> createStudyGroup(@RequestBody @Valid StudyCreateRequest request, @RequestHeader("X-Auth-UserName") String userName) {
-        studyGroupService.createStudyGroup(request, userName);
-        return ApiResponseDto.createOk(studyGroupService.createStudyGroup(request,userName));
+        Map<String, Object> result = studyGroupService.createStudyGroup(request, userName);
+        return ApiResponseDto.createOk(result);
     }
 
     @GetMapping("/{studyId}")
@@ -46,13 +46,11 @@ public class StudyGroupController {
 
     @PutMapping(value = "/{studyId}")
     public ApiResponseDto<Map<String, Object>> editStudyGroup(@RequestBody @Valid StudyUpdateRequest request, @PathVariable Long studyId){
-        studyGroupService.updateStudyGroup(studyId,request);
         return ApiResponseDto.createOk(studyGroupService.updateStudyGroup(studyId,request));
     }
 
     @DeleteMapping(value="/{studyId}")
-    public ApiResponseDto<Map<String, Object>> deleteStudyGroup(@PathVariable @Valid Long studyId) {
-        studyGroupService.deleteStudyGroup(studyId);
+    public ApiResponseDto<Map<String, Object>> deleteStudyGroup(@PathVariable Long studyId) {
         return ApiResponseDto.createOk(studyGroupService.deleteStudyGroup(studyId));
     }
 }

@@ -39,9 +39,6 @@ public class StudyGroup {
     @Column(name="created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
-    @Column(name="updated_at", nullable = false)
-    private LocalDateTime updatedAt;
-
     @Column(name="end_date", nullable = false)
     private LocalDate endDate;
 
@@ -74,12 +71,6 @@ public class StudyGroup {
     @PrePersist
     protected void onCreate() {
         this.createdAt = LocalDateTime.now();
-        this.updatedAt = this.createdAt;
-    }
-
-    @PreUpdate
-    protected void onUpdate() {
-        this.updatedAt = LocalDateTime.now();
     }
 
 

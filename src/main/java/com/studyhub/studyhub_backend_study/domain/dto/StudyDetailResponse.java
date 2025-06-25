@@ -38,7 +38,6 @@ public class StudyDetailResponse {
         dto.setCategory(studyGroup.getCategory());
         dto.setCreatedBy(studyGroup.getCreatedBy());
         dto.setCreatedAt(studyGroup.getCreatedAt());
-        dto.setUpdatedAt(studyGroup.getUpdatedAt());
         dto.setEndDate(studyGroup.getEndDate());
         dto.setMaxMentor(studyGroup.getMaxMentor());
         dto.setMaxMentee(studyGroup.getMaxMentee());

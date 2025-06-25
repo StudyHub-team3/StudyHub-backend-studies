@@ -4,28 +4,34 @@ import com.studyhub.studyhub_backend_study.common.web.context.GatewayRequestHead
 import com.studyhub.studyhub_backend_study.domain.StudyGroup;
 import com.studyhub.studyhub_backend_study.domain.StudyGroupCategory;
 import jakarta.validation.constraints.NotBlank;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import jakarta.validation.constraints.NotNull;
+import lombok.*;
 
 import java.time.LocalDate;
 
 @Getter @Setter
-@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class StudyCreateRequest {
 
     @NotBlank(message = "그룹명을 입력하세요")
     private String groupName;
+
     private String description;
-    @NotBlank(message = "카테고리를 입력하세요")
+
+    @NotNull(message = "카테고리를 입력하세요")
     private StudyGroupCategory category;
-    @NotBlank(message = "최대 멘토수를 입력하세요")
-    private int maxMentor;
-    @NotBlank(message = "최대 멘티수를 입력하세요")
-    private int maxMentee;
+
+    @NotNull(message = "최대 멘토수를 입력하세요")
+    private Integer maxMentor;
+
+    @NotNull(message = "최대 멘티수를 입력하세요")
+    private Integer maxMentee;
+
     @NotBlank(message = "자기 롤을 입력하세요.")
     private String creatorRole;
-    @NotBlank(message = "끝나는 날짜를 입력하세요")
+
+    @NotNull(message = "끝나는 날짜를 입력하세요")
     private LocalDate endDate;
 
     public StudyGroup toEntity() {
@@ -39,6 +45,4 @@ public class StudyCreateRequest {
                 .maxMentee(this.maxMentee)
                 .build();
     }
-
-
 }

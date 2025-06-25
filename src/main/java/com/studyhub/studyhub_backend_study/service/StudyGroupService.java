@@ -43,7 +43,7 @@ public class StudyGroupService {
 
         studyGroupRepository.save(studyGroup);
 
-        kafkaMessageProducer.sendCreateStudyGroupEvent(studyGroup,userName,role);
+        //kafkaMessageProducer.sendCreateStudyGroupEvent(studyGroup,userName,role);
 
         return Map.of(
                 "studyId", studyGroup.getId(),
@@ -67,9 +67,7 @@ public class StudyGroupService {
         studyGroup.setEndDate(request.getEndDate());
 
         return Map.of(
-                "studyId", studyGroup.getId(),
-                "updatedAt", studyGroup.getUpdatedAt().toString()
-        );
+                "studyId", studyGroup.getId());
     }
 
     @Transactional
@@ -84,7 +82,7 @@ public class StudyGroupService {
         }
 
         studyGroupRepository.delete(studyGroup);
-        kafkaMessageProducer.sendDeleteStudyGroupEvent(studyGroup);
+        //kafkaMessageProducer.sendDeleteStudyGroupEvent(studyGroup);
 
         return Map.of(
                 "studyId", studyGroup.getId()

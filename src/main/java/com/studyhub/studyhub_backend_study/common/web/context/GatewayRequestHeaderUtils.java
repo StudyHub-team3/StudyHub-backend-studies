@@ -24,29 +24,13 @@ public class GatewayRequestHeaderUtils {
         return userId;
     }
 
-    // 사용자 디바이스 정보를 요청 헤더에서 가져옴 (없으면 null 반환)
-    public static String getClientDevice() {
-        String clientDevice = getRequestHeaderParamAsString("X-Client-Device");
-        if (clientDevice == null) {
-            return null;
-        }
-        return clientDevice;
-    }
 
-    // 사용자 IP 주소 정보를 요청 헤더에서 가져옴 (없으면 null 반환)
-    public static String getClientAddress() {
-        String clientAddress = getRequestHeaderParamAsString("X-Client-Address");
-        if (clientAddress == null) {
-            return null;
-        }
-        return clientAddress;
-    }
 
     // 사용자 ID를 요청 헤더에서 가져오고, 없으면 예외 발생
     public static Long getUserIdOrThrowException() {
         ServletRequestAttributes requestAttributes =
                 (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
-        String userIdStr = requestAttributes.getRequest().getHeader("X-USER-ID");
+        String userIdStr = requestAttributes.getRequest().getHeader("X-Auth-UserId");
 
         if (userIdStr == null || userIdStr.isBlank()) {
             throw new Unauthorized("인증 정보가 없습니다.");
@@ -59,23 +43,7 @@ public class GatewayRequestHeaderUtils {
         }
     }
 
-    // 사용자 디바이스 정보를 요청 헤더에서 가져오고, 없으면 예외 발생
-    public static String getClientDeviceOrThrowException() {
-        String clientDevice = getClientDevice();
-        if (clientDevice == null) {
-            throw new NotFound("헤더에 사용자 디바이스 정보가 없습니다.");
-        }
-        return clientDevice;
-    }
 
-    // 사용자 IP 주소 정보를 요청 헤더에서 가져오고, 없으면 예외 발생
-    public static String getClientAddressOrThrowException() {
-        String clientAddress = getClientAddress();
-        if (clientAddress == null) {
-            throw new NotFound("헤더에 사용자 IP 주소 정보가 없습니다.");
-        }
-        return clientAddress;
-    }
 
     public static String getUserName() {
         return getRequestHeaderParamAsString("X-Auth-UserName");
