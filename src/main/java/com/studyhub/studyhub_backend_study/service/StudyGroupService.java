@@ -43,7 +43,8 @@ public class StudyGroupService {
 
         studyGroupRepository.save(studyGroup);
 
-        //kafkaMessageProducer.sendCreateStudyGroupEvent(studyGroup,userName,role);
+        log.info("Sending createStudyGroup event to Kafka...");
+        kafkaMessageProducer.sendCreateStudyGroupEvent(studyGroup,userName,role);
 
         return Map.of(
                 "studyId", studyGroup.getId(),
@@ -82,7 +83,8 @@ public class StudyGroupService {
         }
 
         studyGroupRepository.delete(studyGroup);
-        //kafkaMessageProducer.sendDeleteStudyGroupEvent(studyGroup);
+        log.info("Sending updateStudyGroup event to Kafka...");
+        kafkaMessageProducer.sendDeleteStudyGroupEvent(studyGroup);
 
         return Map.of(
                 "studyId", studyGroup.getId()
