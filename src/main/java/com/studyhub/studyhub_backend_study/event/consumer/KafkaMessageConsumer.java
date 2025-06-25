@@ -23,6 +23,7 @@ public class KafkaMessageConsumer {
         }
     )
     public void handleStudyCrewEvent(StudyCrewEvent event, Acknowledgment ack) {
+        log.info("🔥 Kafka consume 시작: {}", event);
         try {
             String eventType = event.getEventType();
             StudyCrewEvent.Data data = event.getData();
@@ -31,16 +32,16 @@ public class KafkaMessageConsumer {
                     eventType, data.getStudyId(), data.getUserId(), data.getUserName(), data.getRole());
 
             switch (eventType) {
-                case "STUDY_CREW_JOINED" -> {
-                    studyGroupService.handleMemberJoin(event);
-                }
-                case "STUDY_CREW_QUITED" -> {
-                    studyGroupService.handleMemberQuit(event);
-                }
+                case "STUDY_CREW_JOINED" -> studyGroupService.handleMemberJoin(event);
+                case "STUDY_CREW_QUITED" -> studyGroupService.handleMemberQuit(event);
                 default -> log.warn("알 수 없는 이벤트 타입: {}", eventType);
             }
 
-            ack.acknowledge();
+            // ✅ acknowledgment가 실제로 주입된 경우에만 호출
+            if (ack != null) {
+                ack.acknowledge();
+            }
+
         } catch (Exception e) {
             log.error("❌ Kafka 이벤트 처리 중 예외 발생", e);
         }
